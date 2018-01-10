@@ -34,7 +34,7 @@ endfunction
 function! s:Setup(path) abort
   call s:Detect(a:path)
   " if exists('b:omakase_root')
-  "   " Send the Mix autocommand to add the Rails command.
+  "   " Send the Omakase autocommand to add the Rails commands.
   "   silent doautocmd User Omakase
   " endif
 endfunction
