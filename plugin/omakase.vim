@@ -47,19 +47,13 @@ augroup omakase
         \ endif
   autocmd FileType * call s:Setup(expand('%:p'))
   autocmd User NERDTreeInit,NERDTreeNewRoot call s:Setup(b:NERDTreeRoot.path.str())
-  autocmd VimEnter * if expand('<amatch>')==''|call s:Setup(getcwd())|endif
+  autocmd VimEnter * if expand('<amatch>')==''| call s:Setup(getcwd()) |endif
 augroup END
 
 
 let s:projections = {
-      \  "*.example.yml": {"alternate": "{}.yml"},
-      \  "*.yml": {"alternate": ["{}.example.yml", "{}.yml.example", "{}.yml.sample"]},
-      \  "*.yml.example": {"alternate": "{}.yml"},
-      \  "*.yml.sample": {"alternate": "{}.yml"},
       \  "Gemfile": {"alternate": "Gemfile.lock", "type": "lib"},
       \  "Gemfile.lock": {"alternate": "Gemfile"},
-      \  "README": {"alternate": "config/database.yml"},
-      \  "README.*": {"alternate": "config/database.yml"},
       \  "Rakefile": {"type": "task"},
       \  "app/channels/*_channel.rb": {
       \    "template": ["class {camelcase|capitalize|colons}Channel < ActionCable::Channel", "end"],
@@ -110,7 +104,7 @@ let s:projections = {
       \  "config/initializers/*.rb": {"type": "initializer"},
       \  "config/routes.rb": {
       \    "alternate": ["config/application.rb", "config/environment.rb"],
-      \    "type": "initializer"
+      \    "type": "routes"
       \  },
       \  "gems.rb": {"alternate": "gems.locked", "type": "lib"},
       \  "gems.locked": {"alternate": "gems.rb"},
