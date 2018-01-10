@@ -1,7 +1,7 @@
 " omakase.vim - Simpler Rails projections.
 " Location: plugin/omakase.vim
 " Author:   Aliou Diallo <code@aliou.me>
-" Version:  0.0.0
+" Version:  0.0.1
 
 if exists('g:loaded_omakase') || &compatible || v:version < 700
   finish
