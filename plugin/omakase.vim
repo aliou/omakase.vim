@@ -50,6 +50,27 @@ augroup omakase
   autocmd VimEnter * if expand('<amatch>')==''| call s:Setup(getcwd()) | endif
 augroup END
 
+let s:rspec_projections = {
+      \   'spec/spec_helper.rb': {
+      \     'type': 'spec',
+      \     'alternate': 'spec/rails_helper.rb'
+      \   },
+      \   'spec/*_spec.rb': {
+      \     'type': 'spec',
+      \     'alternate': ['app/{}.rb', 'lib/{}.rb']
+      \   },
+      \   'app/*.rb': {
+      \     'alternate': 'spec/{}_spec.rb'
+      \   },
+      \   'app/controllers/*_controller.rb': {
+      \     'alternate': 'spec/requests/{}_spec.rb'
+      \   },
+      \   'spec/requests/*_spec.rb': {
+      \     'type': 'request',
+      \     'alternate': 'app/controllers/{}_controller.rb'
+      \   }
+      \ }
+
 let s:projections = {
       \  'Gemfile': {'alternate': 'Gemfile.lock', 'type': 'lib'},
       \  'Gemfile.lock': {'alternate': 'Gemfile'},
@@ -126,6 +147,10 @@ function! s:ProjectionistDetect() abort
 
     if exists('g:rails_projections')
       call projectionist#append(b:omakase_root, g:rails_projections)
+    endif
+
+    if omakase#test_framework() ==# 'rspec'
+      call projectionist#append(b:omakase_root, s:rspec_projections)
     endif
   endif
 endfunction
