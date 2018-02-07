@@ -33,10 +33,10 @@ endfunction
 
 function! s:Setup(path) abort
   call s:Detect(a:path)
-  " if exists('b:omakase_root')
-  "   " Send the Omakase autocommand to add the Rails commands.
-  "   silent doautocmd User Omakase
-  " endif
+  if exists('b:omakase_root')
+    " Send the Omakase autocommand to add the Rails commands.
+    silent doautocmd User Omakase
+  endif
 endfunction
 
 augroup omakase
@@ -47,69 +47,73 @@ augroup omakase
         \ endif
   autocmd FileType * call s:Setup(expand('%:p'))
   autocmd User NERDTreeInit,NERDTreeNewRoot call s:Setup(b:NERDTreeRoot.path.str())
-  autocmd VimEnter * if expand('<amatch>')==''| call s:Setup(getcwd()) |endif
+  autocmd VimEnter * if expand('<amatch>')==''| call s:Setup(getcwd()) | endif
 augroup END
 
-
 let s:projections = {
-      \  "Gemfile": {"alternate": "Gemfile.lock", "type": "lib"},
-      \  "Gemfile.lock": {"alternate": "Gemfile"},
-      \  "Rakefile": {"type": "task"},
-      \  "app/channels/*_channel.rb": {
-      \    "template": ["class {camelcase|capitalize|colons}Channel < ActionCable::Channel", "end"],
-      \    "type": "channel"
+      \  'Gemfile': {'alternate': 'Gemfile.lock', 'type': 'lib'},
+      \  'Gemfile.lock': {'alternate': 'Gemfile'},
+      \  'Rakefile': {'type': 'task'},
+      \  'app/channels/*_channel.rb': {
+      \    'template': ['class {camelcase|capitalize|colons}Channel < ActionCable::Channel', 'end'],
+      \    'type': 'channel'
       \  },
-      \  "app/controllers/*_controller.rb": {
-      \    "affinity": "controller",
-      \    "template": [
-      \      "class {camelcase|capitalize|colons}Controller < ApplicationController",
-      \      "end"
+      \  'app/controllers/*_controller.rb': {
+      \    'affinity': 'controller',
+      \    'template': [
+      \      'class {camelcase|capitalize|colons}Controller < ApplicationController',
+      \      'end'
       \    ],
-      \    "type": "controller"
+      \    'type': 'controller'
       \  },
-      \  "app/controllers/concerns/*.rb": {
-      \    "affinity": "controller",
-      \    "template": [
-      \      "module {camelcase|capitalize|colons}",
-      \      "\tinclude ActiveSupport::Concern",
-      \      "end"
+      \  'app/controllers/concerns/*.rb': {
+      \    'affinity': 'controller',
+      \    'template': [
+      \      'module {camelcase|capitalize|colons}',
+      \      '\tinclude ActiveSupport::Concern',
+      \      'end'
       \    ],
-      \    "type": "controller"
+      \    'type': 'controller'
       \  },
-      \  "app/helpers/*_helper.rb": {
-      \    "affinity": "controller",
-      \    "template": ["module {camelcase|capitalize|colons}Helper", "end"],
-      \    "type": "helper"
+      \  'app/helpers/*_helper.rb': {
+      \    'affinity': 'controller',
+      \    'template': ['module {camelcase|capitalize|colons}Helper', 'end'],
+      \    'type': 'helper'
       \  },
-      \  "app/jobs/*_job.rb": {
-      \    "affinity": "model",
-      \    "template": ["class {camelcase|capitalize|colons}Job < ApplicationJob", "end"],
-      \    "type": "job"
+      \  'app/jobs/*_job.rb': {
+      \    'affinity': 'model',
+      \    'template': ['class {camelcase|capitalize|colons}Job < ApplicationJob', 'end'],
+      \    'type': 'job'
       \  },
-      \  "app/models/*.rb": {
-      \    "affinity": "model",
-      \    "template": ["class {camelcase|capitalize|colons}", "end"],
-      \    "type": "model"
+      \  'app/models/*.rb': {
+      \    'affinity': 'model',
+      \    'template': ['class {camelcase|capitalize|colons}', 'end'],
+      \    'type': 'model'
       \  },
-      \  "app/serializers/*_serializer.rb": {
-      \    "template": ["class {camelcase|capitalize|colons}Serializer < ActiveModel::Serializer", "end"],
-      \    "type": "serializer"
+      \  'app/serializers/*_serializer.rb': {
+      \    'template': ['class {camelcase|capitalize|colons}Serializer < ActiveModel::Serializer', 'end'],
+      \    'type': 'serializer'
       \  },
-      \  "config/application.rb": {"alternate": "config/routes.rb"},
-      \  "config/environment.rb": {"alternate": "config/routes.rb"},
-      \  "config/environments/*.rb": {
-      \    "alternate": ["config/application.rb", "config/environment.rb"],
-      \    "type": "environment"
+      \  'db/migrate/*.rb': {
+      \    'type': 'migration',
+      \    'template': [
+      \    ]
       \  },
-      \  "config/initializers/*.rb": {"type": "initializer"},
-      \  "config/routes.rb": {
-      \    "alternate": ["config/application.rb", "config/environment.rb"],
-      \    "type": "routes"
+      \  'config/application.rb': {'alternate': 'config/routes.rb'},
+      \  'config/environment.rb': {'alternate': 'config/routes.rb'},
+      \  'config/environments/*.rb': {
+      \    'alternate': ['config/application.rb', 'config/environment.rb'],
+      \    'type': 'environment'
       \  },
-      \  "gems.rb": {"alternate": "gems.locked", "type": "lib"},
-      \  "gems.locked": {"alternate": "gems.rb"},
-      \  "lib/*.rb": {"type": "lib"},
-      \  "lib/tasks/*.rake": {"type": "task"}
+      \  'config/initializers/*.rb': {'type': 'initializer'},
+      \  'config/routes.rb': {
+      \    'alternate': ['config/application.rb', 'config/environment.rb'],
+      \    'type': 'routes'
+      \  },
+      \  'gems.rb': {'alternate': 'gems.locked', 'type': 'lib'},
+      \  'gems.locked': {'alternate': 'gems.rb'},
+      \  'lib/*.rb': {'type': 'lib'},
+      \  'lib/tasks/*.rake': {'type': 'task'}
       \}
 
 function! s:ProjectionistDetect() abort
